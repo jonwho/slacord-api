@@ -44,7 +44,7 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
-  gem 'faker'
+  gem 'ffaker'
   gem 'database_cleaner'
 end
 
