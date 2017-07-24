@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # also makes it easier to migrate to a new api version
   # while keeping backwards compatibility on all or some routes
   concern :api_base do
-    resources :users, only: [:show]
+    resources :users, only: [:create, :show]
   end
 
   namespace :api do
