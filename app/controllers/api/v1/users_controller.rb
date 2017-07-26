@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if user.save
       render json: User.find(user.id)
     else
-      render json: { error: 'Unable to create user' }, status: :bad_request
+      render json: { errors: user.errors.messages }, status: :bad_request
     end
   end
 
