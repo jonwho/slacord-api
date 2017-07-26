@@ -1,14 +1,21 @@
 class User < ApplicationRecord
+  before_save { self.email = email.downcase }
+
+  validates :username, presence: true,
+                       uniqueness: { case_sensitive: false }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true,
+                    length: { maximum: 255 },
+                    format: { with: VALID_EMAIL_REGEX },
+                    uniqueness: { case_sensitive: false }
+
+  has_secure_password
+  validates :password, presence: true, length: { minimum: 8 }
   has_secure_token :auth_token
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, # hashes + stores password in database to validate user authenticity
-    :registerable, # handles user sign up, user editing and deleting
-    :confirmable, # handles confirmation through email
-    :recoverable, # resets the user password and sends email instructions to recover account
-    :trackable, # tracks sign in count, timestamps, and IP addresses
-    :validatable # provide validations of email and password
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
 
-  validates :username, uniqueness: { case_sensitive: false }
+    BCrypt::Password.create(string, cost: cost)
+  end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::RegistrationsController, type: :request do
-  describe 'GET #create' do
+  describe 'POST #create' do
     it 'creates a new user using valid parameters' do
       params = {
         user: {
@@ -13,9 +13,8 @@ RSpec.describe Api::V1::RegistrationsController, type: :request do
       }
 
       expect do
-        post api_v1_user_registration_path, params: params
+        post api_v1_registrations_path, params: params
       end.to change{User.count}.from(0).to(1)
-
     end
 
     it 'rejects user creation given invalid parameters' do
@@ -23,4 +22,3 @@ RSpec.describe Api::V1::RegistrationsController, type: :request do
     end
   end
 end
-
