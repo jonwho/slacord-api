@@ -1,6 +1,4 @@
-class Api::V1::UsersController < ApplicationController
-  respond_to :json
-
+class Api::V1::UsersController < Api::V1::BaseController
   def create
     user = User.create(user_params)
     if user.save
